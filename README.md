@@ -1,7 +1,7 @@
 # 高雄岡山五甲尾滯洪池 4,999.2kWp 水面型光電電廠｜8D 性能異常診斷暨效益改善決策平台
 
-> **案號**：`PV-2026-KS01` ｜ **電站代碼**：`AESC-KS001` ｜ **分析引擎**：`UNSW-Solar P2P 演算法` ✕ `8D (D0~D8) 問題解決架構`  
-> **線上互動決策平台**：[https://davidyeh51.github.io/gangshan-wujiawei-diagnostic/](https://davidyeh51.github.io/gangshan-wujiawei-diagnostic/)  
+> **案號**：`PV-2026-KS01` ｜ **電站代碼**：`AESC-KS001` ｜ **分析引擎**：`UNSW-Solar P2P 演算法 (/pv-performance-diagnosis)` ✕ `8D (D0~D8) 問題解決架構`  
+> **線上互動決策平台 (簡報/完整報告雙模)**：[https://davidyeh51.github.io/gangshan-wujiawei-diagnostic/](https://davidyeh51.github.io/gangshan-wujiawei-diagnostic/)  
 > **8D 異常診斷決策管理門戶**：[https://davidyeh51.github.io/solar-8d-portal/](https://davidyeh51.github.io/solar-8d-portal/)
 
 ---
@@ -31,6 +31,58 @@ UNSW 遙測特徵確診：直流工作電壓（676V~686V）與逆變器轉換效
 | **年化發電缺口** | **短少 405,889 kWh** (-6.01%) | 年化電費損失約 **NT$ 198.1 萬元** |
 | **全年度平均 PR** | **81.55%** (妥善率 99.43%) | 10月份受落塵影響陡降至 73.2%~76.9% |
 | **逆變器運轉轉換效率** | **97.33%** (恆定) | 逆變器硬體轉換正常，無電氣故障 |
+
+---
+
+## 📋 深度性能診斷需要的明確資訊文件清單 (Required Information Documents)
+
+依據 **`/pv-performance-diagnosis` (UNSW-Solar)** 標準性能診斷規範，現階段整站合計數據已完成全場光學衰退與感測器故障診斷；若需進一步啟動**各變流器同儕分群 (P2P)、MPPT 多路電流差異排查與單串斷路/熔絲熔斷精確定位**，系統需要以下 5 大類明確資訊文件：
+
+### 1. 各變流器逐台高頻遙測日誌 (Inverter-Level Time Series)
+- **檔案格式**：CSV / Excel 格式，採樣頻率 **1 分鐘或 5 分鐘**。
+- **必要欄位**：
+  - 時間戮記 (`Timestamp`)、變流器編號 (`Inverter_ID`)
+  - 交流側：三相交流電壓 ($V_{ac,U}, V_{ac,V}, V_{ac,W}$)、三相電流 ($I_{ac}$)、有功功率 ($P_{ac}$)、功率因數 (PF)
+  - 直流側：每路 MPPT 之直流電壓 ($V_{mppt1..N}$) 與直流電流 ($I_{mppt1..N}$)
+  - 機芯溫度 ($T_{igbt}$ / 散熱片溫度)
+  - 變流器即時告警事件記錄與代碼日誌 (`Alarm/Fault Event Log`)
+- **解鎖之 UNSW 分析能力**：
+  - `31-P2P_ShortTerm_Monitor.ipynb`：變流器級 5 分鐘同儕差分比對 (Division / Delta / Mixture)。
+  - `51-SMA_MPPTs_signficant_difference.ipynb`：多路 MPPT 電流相位離散度檢驗。
+  - `52-StringFault_Single.ipynb`：單組串斷路熔絲熔斷自動識別。
+
+### 2. 電氣竣工單線圖 (SLD) 暨組串串接圖 (DC String Layout)
+- **檔案格式**：PDF 掃描檔或 AutoCAD DWG 竣工圖面。
+- **必要資訊**：
+  - 竣工單線圖 (SLD)：變流器台數、廠牌型號（如 SUNGROW, HUAWEI, DELTA）、額定容量、交直流盤、升壓變壓器與併網點規範。
+  - 組串串接平面圖 (C-002 DC String Layout)：各變流器每路 MPPT 實際串接之組件型號、串數、每串片數，用以建立**真實銘牌容量 (Actual DC kWp)**，消除 SCADA 登錄容量誤差。
+  - 直流匯流箱 (Combiner Box) 與直流熔絲 (Fuse) 額定規格 (A)。
+- **解鎖之分析能力**：精準標定發電落後變流器背後所對應之實體浮筒區塊，指引維運直達故障箱。
+
+### 3. 氣象環境監測儀器出廠校驗書與 Modbus 點位表 (Register Map)
+- **檔案格式**：PDF 儀器規格書 / Excel Modbus 點位暫存器表。
+- **必要資訊**：
+  - 日射計 (Pyranometer) 廠牌型號、出廠校正係數（靈敏度 Sensitivity $\mu\text{V}/(\text{W/m}^2)$）、安裝傾角 (Tilt) 與方位角 (Azimuth)、水平日射 (GHI) 或斜面日射 (POA) 標籤。
+  - 模組背面溫度感測器 (PT100/熱電偶) 安裝位置、通訊協議與 Modbus Register Map 點位表。
+- **解鎖之分析能力**：
+  - `22-ClearSky_Day.ipynb`：以 pvlib 晴空模型精準擬合五甲尾滯洪池理論日照。
+  - 根治 6~9 月溫度 PR 出現負值 (-135.6%) 之軟硬體暫存器溢位錯誤。
+
+### 4. 水面浮體水工結構圖與錨碇佈置圖 (Floating Array Civil & Mooring)
+- **檔案格式**：PDF 水工或土木結構圖紙。
+- **必要資訊**：
+  - HDPE 水面浮筒陣列分區圖（北池、中池、南池浮台組合與走道排布）。
+  - 岸邊自適應滑軌錨定鋼纜、水下配重錨塊規格。
+  - 滯洪池設計洪水位 (HWL)、常水位 (NWL) 與枯水位 (LWL)。
+- **解鎖之分析能力**：分析 8 月防汛蓄水水深劇增時，浮台位移拉扯對水下高壓直流電纜絕緣阻抗 ($R_{iso}$) 的應力影響，排查防水氣滲漏隱患。
+
+### 5. 歷史維運工單、巡檢紀錄與台電停電通報日誌 (O&M Logs)
+- **檔案格式**：PDF / Excel 工單紀錄。
+- **必要資訊**：
+  - 過去 12 個月模組清洗作業日誌（日期、耗水量、清洗區域）。
+  - 無人機紅外線熱成像巡檢報告（IR Thermography Report）與熱斑清冊。
+  - 台電電網檢修停電通報單、饋線跳脫記錄。
+- **解鎖之分析能力**：前後對照驗證清洗效果恢復比值 (Validation Ratio)；以機器學習 (`43-1-Recurring_Binary_ML.ipynb`) 分類固定遮蔽、熱斑老化與非預期跳機。
 
 ---
 
@@ -95,17 +147,24 @@ UNSW 遙測特徵確診：直流工作電壓（676V~686V）與逆變器轉換效
 
 ---
 
-## 🌐 線上決策平台與互動功能
+## 🌐 線上決策平台架構與操作
 
 線上互動決策平台已正式部屬至 GitHub Pages：  
 👉 [https://davidyeh51.github.io/gangshan-wujiawei-diagnostic/](https://davidyeh51.github.io/gangshan-wujiawei-diagnostic/)
 
 ### 平台主要特色：
-1. **雙模切換**：支援「內部維運版（機密除錯與預算細節）」與「業主交付版（顧問報告與效益核定）」一鍵切換。
-2. **互動 GIS 圖資**：Leaflet 地圖精準標定岡山五甲尾滯洪池水域與浮台配置。
-3. **四大互動圖表**：
-   - 12 個月歷史發電月報分析 (發電量、Ey、PR、溫修 PR)；
-   - 92 天逐日性能診斷 (PR 與每日度數時間軸)；
+1. **雙模切換 (Presentation Deck vs Document View)**：
+   - **簡報切換模式**：13 頁沉浸式簡報投影，支援鍵盤左右箭頭快捷切換、進度條指示與底端浮動控制器。
+   - **完整報告模式**：點擊右上角「📄 完整報告模式」立即切換為全頁滾動長文視圖，適合詳細研讀與列印 PDF。
+2. **報告模式切換**：支援「內部維運版（機密除錯與工程預算）」與「業主交付版（顧問報告與效益核定）」一鍵動態切換。
+3. **專屬「需要的明確資訊文件」模組 (Slide 11 & Modal)**：
+   - 結構化列出 5 大類深入分析所需之高頻遙測日誌、電氣竣工圖、氣象站校正書、水工浮體錨碇圖與維運工單。
+   - 內建一鍵複製檢核清單文字與標準欄位 CSV 範本下載功能。
+4. **互動 GIS 圖資與 5 大 ECharts 視覺化**：
+   - Leaflet 地圖精準標定岡山五甲尾滯洪池水域與浮台配置；
+   - 12 個月歷史發電月報分析圖；
+   - 92 天逐日性能走向與 PR 警戒線圖；
    - UNSW 核心特徵解耦比對 ($I_{DC}/G$ 衰退 vs $V_{DC}$ 穩定)；
-   - 4 個代表日 24 小時高頻遙測曲線 (晴空基準、防汛暴雨、日射中斷、落塵衰退)。
-4. **92 天數據檢索器**：內建搜尋引擎與一鍵匯出全場 CSV 對帳檔功能。
+   - 4 個代表日 24 小時高頻遙測曲線 (晴空基準、防汛暴雨、日射中斷、落塵衰退)；
+   - 20 年 DCF 折現資產累計淨增益曲線圖。
+5. **92 天數據檢索器**：內建搜尋引擎與一鍵匯出全場 CSV 對帳檔功能。
