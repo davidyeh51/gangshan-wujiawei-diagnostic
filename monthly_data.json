@@ -12,9 +12,9 @@
     "ra": 88.77,
     "avail": 98.0,
     "co2_kg": 216280.4,
-    "target_kwh": 472330,
-    "gap_kwh": -16042,
-    "gap_ntd": -78285
+    "target_kwh": 459290,
+    "gap_kwh": -3002,
+    "gap_ntd": -14650
   },
   {
     "month": "2025-12",
@@ -29,9 +29,9 @@
     "ra": 87.4,
     "avail": 100.0,
     "co2_kg": 216785.0,
-    "target_kwh": 485659,
-    "gap_kwh": -28307,
-    "gap_ntd": -138138
+    "target_kwh": 472252,
+    "gap_kwh": -14900,
+    "gap_ntd": -72712
   },
   {
     "month": "2026-01",
@@ -46,9 +46,9 @@
     "ra": 85.26,
     "avail": 99.9,
     "co2_kg": 227483.2,
-    "target_kwh": 536891,
-    "gap_kwh": -56969,
-    "gap_ntd": -278009
+    "target_kwh": 522069,
+    "gap_kwh": -42147,
+    "gap_ntd": -205677
   },
   {
     "month": "2026-02",
@@ -63,9 +63,9 @@
     "ra": 84.59,
     "avail": 99.7,
     "co2_kg": 229891.1,
-    "target_kwh": 536125,
-    "gap_kwh": -51123,
-    "gap_ntd": -249480
+    "target_kwh": 521324,
+    "gap_kwh": -36322,
+    "gap_ntd": -177251
   },
   {
     "month": "2026-03",
@@ -80,9 +80,9 @@
     "ra": 90.26,
     "avail": 99.9,
     "co2_kg": 312221.0,
-    "target_kwh": 691438,
-    "gap_kwh": -32744,
-    "gap_ntd": -159791
+    "target_kwh": 672350,
+    "gap_kwh": -13656,
+    "gap_ntd": -66641
   },
   {
     "month": "2026-04",
@@ -97,9 +97,9 @@
     "ra": 92.28,
     "avail": 99.8,
     "co2_kg": 276272.1,
-    "target_kwh": 591530,
-    "gap_kwh": -8677,
-    "gap_ntd": -42344
+    "target_kwh": 575199,
+    "gap_kwh": 7654,
+    "gap_ntd": 37352
   },
   {
     "month": "2026-05",
@@ -114,9 +114,9 @@
     "ra": 89.18,
     "avail": 98.2,
     "co2_kg": 326913.0,
-    "target_kwh": 719844,
-    "gap_kwh": -30154,
-    "gap_ntd": -147152
+    "target_kwh": 699971,
+    "gap_kwh": -10281,
+    "gap_ntd": -50171
   },
   {
     "month": "2026-06",
@@ -131,9 +131,9 @@
     "ra": 94.48,
     "avail": 99.4,
     "co2_kg": 244771.3,
-    "target_kwh": 507080,
-    "gap_kwh": 9315,
-    "gap_ntd": 45457
+    "target_kwh": 493081,
+    "gap_kwh": 23314,
+    "gap_ntd": 113772
   },
   {
     "month": "2026-07",
@@ -148,9 +148,9 @@
     "ra": 91.59,
     "avail": 99.4,
     "co2_kg": 288264.0,
-    "target_kwh": 612866,
-    "gap_kwh": -4714,
-    "gap_ntd": -23004
+    "target_kwh": 595946,
+    "gap_kwh": 12206,
+    "gap_ntd": 59565
   },
   {
     "month": "2026-08",
@@ -165,9 +165,9 @@
     "ra": 92.49,
     "avail": 99.8,
     "co2_kg": 200686.0,
-    "target_kwh": 423099,
-    "gap_kwh": 289,
-    "gap_ntd": 1410
+    "target_kwh": 411419,
+    "gap_kwh": 11969,
+    "gap_ntd": 58409
   },
   {
     "month": "2026-09",
@@ -175,32 +175,49 @@
     "ey": 117.78,
     "daily_ey": 3.93,
     "irr": 140.64,
-    "daily_irr": 4.85,
+    "daily_irr": 4.69,
     "pr_all": 80.96,
     "pr_valid": 82.1,
     "pr_temp": -39.65,
     "ra": 88.51,
     "avail": 99.6,
     "co2_kg": 279103.2,
-    "target_kwh": 598940,
-    "gap_kwh": -10115,
-    "gap_ntd": -49361
+    "target_kwh": 582405,
+    "gap_kwh": 6420,
+    "gap_ntd": 31330
   },
   {
     "month": "2026-10",
-    "kwh": 397549.3,
-    "ey": 79.52,
-    "daily_ey": 4.19,
-    "irr": 90.91,
-    "daily_irr": 5.05,
-    "pr_all": 78.73,
-    "pr_valid": 77.5,
+    "kwh": 556899.2,
+    "ey": 111.4,
+    "daily_ey": 3.59,
+    "irr": 136.14,
+    "daily_irr": 4.39,
+    "pr_all": 81.83,
+    "pr_valid": 81.83,
     "pr_temp": 73.39,
     "ra": 84.65,
-    "avail": 99.4,
-    "co2_kg": 188438.4,
-    "target_kwh": 387156,
-    "gap_kwh": 10393,
-    "gap_ntd": 50718
+    "avail": 99.6,
+    "co2_kg": 275665.1,
+    "target_kwh": 563770,
+    "gap_kwh": -6871,
+    "gap_ntd": -33530
+  },
+  {
+    "month": "2026-11 (前10日)",
+    "kwh": 154167.3,
+    "ey": 30.84,
+    "daily_ey": 3.08,
+    "irr": 40.93,
+    "daily_irr": 4.09,
+    "pr_all": 75.35,
+    "pr_valid": 75.35,
+    "pr_temp": 73.84,
+    "ra": 99.8,
+    "avail": 99.8,
+    "co2_kg": 76312.8,
+    "target_kwh": 169495,
+    "gap_kwh": -15328,
+    "gap_ntd": -74799
   }
 ]
